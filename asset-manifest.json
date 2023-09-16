@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/gbif-browser/static/css/main.073c9b0a.css",
-    "main.js": "/gbif-browser/static/js/main.f0d5308f.js",
+    "main.css": "/gbif-browser/static/css/main.35daa68b.css",
+    "main.js": "/gbif-browser/static/js/main.e81037b3.js",
     "static/js/787.2a46adef.chunk.js": "/gbif-browser/static/js/787.2a46adef.chunk.js",
-    "static/media/logo.svg": "/gbif-browser/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "static/media/spritesheet.svg": "/gbif-browser/static/media/spritesheet.a4e0eb7ad904a4858361.svg",
     "index.html": "/gbif-browser/index.html",
-    "main.073c9b0a.css.map": "/gbif-browser/static/css/main.073c9b0a.css.map",
-    "main.f0d5308f.js.map": "/gbif-browser/static/js/main.f0d5308f.js.map",
+    "main.35daa68b.css.map": "/gbif-browser/static/css/main.35daa68b.css.map",
+    "main.e81037b3.js.map": "/gbif-browser/static/js/main.e81037b3.js.map",
     "787.2a46adef.chunk.js.map": "/gbif-browser/static/js/787.2a46adef.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.f0d5308f.js"
+    "static/css/main.35daa68b.css",
+    "static/js/main.e81037b3.js"
   ]
 }
