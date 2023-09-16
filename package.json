@@ -11,10 +11,13 @@
     "@types/node": "^16.18.52",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "leaflet": "^1.9.4",
+    "leaflet-draw": "^1.0.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
     "react-dom": "^18.2.0",
     "react-leaflet": "^4.2.1",
+    "react-leaflet-draw": "^0.20.4",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -46,6 +49,8 @@
     ]
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.4",
+    "@types/leaflet-draw": "^1.0.8",
     "gh-pages": "^6.0.0"
   }
 }
