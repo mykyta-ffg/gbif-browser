@@ -4,7 +4,7 @@ import { FeatureGroup, MapContainer, TileLayer } from "react-leaflet";
 import { LatLng, LatLngTuple, Polygon, Rectangle } from "leaflet";
 import { EditControl } from "react-leaflet-draw";
 
-export default function Map({ initialCoordinates, zoomLevel, onPolygonCreation }: MapProps) {
+export default function OpenStreetMap({ initialCoordinates, zoomLevel, onPolygonCreation }: MapProps) {
   return (
     <MapContainer center={initialCoordinates} zoom={zoomLevel} style={{ height: "50vh" }}>
       <TileLayer

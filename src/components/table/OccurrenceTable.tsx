@@ -1,12 +1,13 @@
-import { GbifOccurrenceResponse } from "../../model/GbifOccurrenceResponse";
 import { Spinner, Table } from "react-bootstrap";
+import { OccurrenceRecord } from "../../model/OccurrenceRecord";
 
-export default function OccurrenceTable({ isLoading, values }: TableProps) {
+export default function OccurrenceTable({ isLoading, records }: TableProps) {
   return (
     <>
       <Table striped bordered hover>
         <thead>
           <tr>
+            <th># of occurrences</th>
             <th>Scientific name</th>
             <th>Generic name</th>
             <th>Phylum</th>
@@ -19,9 +20,14 @@ export default function OccurrenceTable({ isLoading, values }: TableProps) {
         </thead>
         <tbody>
           {!isLoading &&
-            values.map((value, idx) => (
+            records.map((value, idx) => (
               <tr key={`occurrence-${idx}`}>
-                <td>{value.scientificName}</td>
+                <td>{value.numberOfOccurrences}</td>
+                <td>
+                  <a href={`https://www.google.com/search?q=${value.scientificName}`} target="_blank">
+                    {value.scientificName}
+                  </a>
+                </td>
                 <td>{value.genericName}</td>
                 <td>{value.phylum}</td>
                 <td>{value.class}</td>
@@ -33,12 +39,12 @@ export default function OccurrenceTable({ isLoading, values }: TableProps) {
             ))}
         </tbody>
       </Table>
-      <div className="text-center">{isLoading ? <Spinner /> : !values.length && "No data"}</div>
+      <div className="text-center">{isLoading ? <Spinner /> : !records.length && "No data"}</div>
     </>
   );
 }
 
 export interface TableProps {
   isLoading: boolean;
-  values: GbifOccurrenceResponse[];
+  records: OccurrenceRecord[];
 }
