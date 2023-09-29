@@ -1,5 +1,6 @@
 import { Spinner, Table } from "react-bootstrap";
 import { OccurrenceRecord } from "../../model/OccurrenceRecord";
+import OccurrenceAvailability from "./OccurrenceAvailability";
 
 export default function OccurrenceTable({ isLoading, records }: TableProps) {
   return (
@@ -10,6 +11,7 @@ export default function OccurrenceTable({ isLoading, records }: TableProps) {
             <th># of occurrences</th>
             <th>Scientific name</th>
             <th>Generic name</th>
+            <th>Availability</th>
             <th>Phylum</th>
             <th>Class</th>
             <th>Order</th>
@@ -29,6 +31,9 @@ export default function OccurrenceTable({ isLoading, records }: TableProps) {
                   </a>
                 </td>
                 <td>{value.genericName}</td>
+                <td>
+                  <OccurrenceAvailability record={value} />
+                </td>
                 <td>{value.phylum}</td>
                 <td>{value.class}</td>
                 <td>{value.order}</td>

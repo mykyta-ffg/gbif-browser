@@ -32,7 +32,7 @@ export class GbifOccurrenceFilter {
     return new URLSearchParams([
       ["limit", `${this.limit}`],
       ["offset", `${this.offset}`],
-      ["geometry", this.geometry ? `POLYGON((${this.geometry.map(p => `${p.lat} ${p.lng}`).join(",")}))` : ""],
+      ["geometry", this.geometry ? `POLYGON((${this.geometry.map(p => `${p.lng} ${p.lat}`).join(",")}))` : ""],
       ["locale", "en"],
       ["occurrence_status", "present"],
       ["has_coordinate", "true"],

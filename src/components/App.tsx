@@ -14,6 +14,17 @@ const MAP_INITIAL_COORDINATES: LatLngTuple = [50.07704, 14.47082];
 const MAP_INITIAL_ZOOM_LEVEL = 7;
 const GBIF_API_OCCURRENCE_RESULT_LIMIT = 100_000;
 
+async function fetchGbifOccurrences(filter: GbifOccurrenceFilter) {
+  const url = "https://api.gbif.org/v1/occurrence/search?" + filter.toUrlSearchParams();
+  console.debug("GBIF request URL: ", url);
+
+  const response = await fetch(url);
+  const responseJson = (await response.json()) as GbifOccurrenceResponse;
+  console.debug("GBIF response: ", responseJson);
+
+  return responseJson;
+}
+
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [latestPolygonCoordinates, setLatestPolygonCoordinates] = useState<LatLng[] | null>(null);
@@ -22,7 +33,7 @@ function App() {
   const defaultFilterState: FilterState = {
     isEndangeredOnly: false,
     includePlants: true,
-    includeFungi: true,
+    includeFungi: false,
   };
   const [filterState, setFilterState] = useState(defaultFilterState);
 
@@ -48,16 +59,6 @@ function App() {
       includeFungi: event.target.checked,
     });
 
-  const fetchGbifOccurrences = async (filter: GbifOccurrenceFilter) => {
-    const url = "https://api.gbif.org/v1/occurrence/search?" + filter.toUrlSearchParams();
-    console.debug("GBIF request URL: ", url);
-
-    const response = await fetch(url);
-    const responseJson = (await response.json()) as GbifOccurrenceResponse;
-    console.debug("GBIF response: ", responseJson);
-
-    return responseJson;
-  };
   const onFetchRequest = async () => {
     const offset = 0;
     const filter = new GbifOccurrenceFilter(latestPolygonCoordinates, filterState, offset);
@@ -69,12 +70,14 @@ function App() {
     do {
       page = await fetchGbifOccurrences(filter);
       for (const result of page.results) {
-        const taxonKey = result.acceptedTaxonKey;
-        const records = recordsByTaxonKey.get(taxonKey);
-        if (records === undefined) {
-          recordsByTaxonKey.set(taxonKey, [result]);
-        } else {
-          records.push(result);
+        if (result.species) {
+          const taxonKey = result.acceptedTaxonKey;
+          const records = recordsByTaxonKey.get(taxonKey);
+          if (records === undefined) {
+            recordsByTaxonKey.set(taxonKey, [result]);
+          } else {
+            records.push(result);
+          }
         }
 
         ++totalFetched;
@@ -92,14 +95,16 @@ function App() {
 
     const occurrenceRecords = [];
     for (const records of recordsByTaxonKey.values()) {
+      const firstRecord = records[0];
       const occurrenceRecord: OccurrenceRecord = {
         numberOfOccurrences: records.length,
-        ...records[0],
+        ...firstRecord,
       };
 
       occurrenceRecords.push(occurrenceRecord);
     }
     occurrenceRecords.sort((a, b) => b.numberOfOccurrences - a.numberOfOccurrences);
+    console.debug("Occurrence records: ", occurrenceRecords);
 
     setOccurrences(occurrenceRecords);
     setIsLoading(false);
@@ -133,7 +138,7 @@ function App() {
         <Row className="m-4">
           <Col className="text-center">
             <Button disabled={!latestPolygonCoordinates} onClick={onFetchRequest}>
-              Fetch data
+              Search
             </Button>
           </Col>
         </Row>
