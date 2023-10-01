@@ -1,3 +1,5 @@
+import { RedListCategory } from "../constant/RedListCategory";
+
 export interface GbifOccurrenceResponseResult {
   acceptedScientificName: string;
   acceptedTaxonKey: number;
@@ -34,7 +36,7 @@ export interface GbifOccurrenceResponseResult {
   installationKey: string;
   isInCluster: false;
   issues: string[];
-  iucnRedListCategory: string;
+  iucnRedListCategory: keyof typeof RedListCategory;
   key: number;
   kingdom: string;
   kingdomKey: number;

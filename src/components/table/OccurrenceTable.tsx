@@ -1,8 +1,9 @@
-import { Spinner, Table } from "react-bootstrap";
+import { ProgressBar, Table } from "react-bootstrap";
 import { OccurrenceRecord } from "../../model/OccurrenceRecord";
 import OccurrenceAvailability from "./OccurrenceAvailability";
+import { RedListCategory } from "../../constant/RedListCategory";
 
-export default function OccurrenceTable({ isLoading, records }: TableProps) {
+export default function OccurrenceTable({ isLoading, loadingState, records }: TableProps) {
   return (
     <>
       <Table striped bordered hover>
@@ -11,6 +12,7 @@ export default function OccurrenceTable({ isLoading, records }: TableProps) {
             <th># of occurrences</th>
             <th>Scientific name</th>
             <th>Generic name</th>
+            <th>Red List category</th>
             <th>Availability</th>
             <th>Phylum</th>
             <th>Class</th>
@@ -22,8 +24,8 @@ export default function OccurrenceTable({ isLoading, records }: TableProps) {
         </thead>
         <tbody>
           {!isLoading &&
-            records.map((value, idx) => (
-              <tr key={`occurrence-${idx}`}>
+            records.map(value => (
+              <tr key={`occurrence-${value.occurrenceID}`}>
                 <td>{value.numberOfOccurrences}</td>
                 <td>
                   <a href={`https://www.google.com/search?q=${value.scientificName}`} target="_blank">
@@ -31,6 +33,11 @@ export default function OccurrenceTable({ isLoading, records }: TableProps) {
                   </a>
                 </td>
                 <td>{value.genericName}</td>
+                <td>
+                  {value.iucnRedListCategory
+                    ? `${RedListCategory[value.iucnRedListCategory]} (${value.iucnRedListCategory})`
+                    : "—"}
+                </td>
                 <td>
                   <OccurrenceAvailability record={value} />
                 </td>
@@ -44,12 +51,28 @@ export default function OccurrenceTable({ isLoading, records }: TableProps) {
             ))}
         </tbody>
       </Table>
-      <div className="text-center">{isLoading ? <Spinner /> : !records.length && "No data"}</div>
+      <div className="text-center">
+        {isLoading ? (
+          <ProgressBar
+            animated
+            now={(loadingState.fetched * 100) / loadingState.total}
+            label={loadingState.fetched ? `Fetched ${loadingState.fetched} of ${loadingState.total} records` : ""}
+          />
+        ) : (
+          !records.length && "No data"
+        )}
+      </div>
     </>
   );
 }
 
 export interface TableProps {
   isLoading: boolean;
+  loadingState: LoadingState;
   records: OccurrenceRecord[];
+}
+
+export interface LoadingState {
+  fetched: number;
+  total: number;
 }

@@ -1,14 +1,14 @@
 import { Form } from "react-bootstrap";
 import { ChangeEventHandler } from "react";
 
-export default function Filter({
+export default function FilterControls({
   isEndangeredOnly,
   includePlants,
   includeFungi,
   onEndangeredOnlyChange,
   onIncludePlantsChange,
   onIncludeFungiChange,
-}: FilterProps) {
+}: FilterControlsProps) {
   return (
     <>
       <Form.Check
@@ -24,13 +24,13 @@ export default function Filter({
   );
 }
 
-export interface FilterProps extends FilterState {
+export interface FilterControlsProps extends FilterControlsState {
   onEndangeredOnlyChange: ChangeEventHandler<HTMLInputElement>;
   onIncludePlantsChange: ChangeEventHandler<HTMLInputElement>;
   onIncludeFungiChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-export interface FilterState {
+export interface FilterControlsState {
   isEndangeredOnly: boolean;
   includePlants: boolean;
   includeFungi: boolean;

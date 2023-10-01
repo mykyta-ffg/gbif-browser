@@ -1,12 +1,12 @@
 import { LatLng } from "leaflet";
-import { FilterState } from "../components/controls/Filter";
+import { FilterControlsState } from "../components/controls/FilterControls";
 
 export class GbifOccurrenceFilter {
   public static MAXIMUM_RESULT_LIMIT = 300;
 
   constructor(
     geometry: LatLng[] | null,
-    { isEndangeredOnly, includePlants, includeFungi }: FilterState,
+    { isEndangeredOnly, includePlants, includeFungi }: FilterControlsState,
     offset: number,
   ) {
     this.geometry = geometry;
@@ -40,8 +40,7 @@ export class GbifOccurrenceFilter {
       // TODO: Define proper mapping
       ["taxon_key", this.includePlants ? "6" : ""],
       ["taxon_key", this.includeFungi ? "5" : ""],
-      ["iucn_red_list_category", this.endangeredOnly ? "EN" : ""],
-      ["iucn_red_list_category", this.endangeredOnly ? "CR" : ""],
+      ...(this.endangeredOnly ? ["NT", "VU", "EN", "CR"].map(c => ["iucn_red_list_category", c]) : []),
     ]);
   }
 }
