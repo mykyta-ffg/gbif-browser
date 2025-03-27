@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/gbif-browser/static/css/main.cafd531b.css",
-    "main.js": "/gbif-browser/static/js/main.db21f5a7.js",
-    "static/js/787.2a46adef.chunk.js": "/gbif-browser/static/js/787.2a46adef.chunk.js",
+    "main.css": "/gbif-browser/static/css/main.258a5a1e.css",
+    "main.js": "/gbif-browser/static/js/main.34169a6d.js",
+    "static/js/453.92b63eaf.chunk.js": "/gbif-browser/static/js/453.92b63eaf.chunk.js",
     "static/media/spritesheet.svg": "/gbif-browser/static/media/spritesheet.a4e0eb7ad904a4858361.svg",
     "index.html": "/gbif-browser/index.html",
-    "main.cafd531b.css.map": "/gbif-browser/static/css/main.cafd531b.css.map",
-    "main.db21f5a7.js.map": "/gbif-browser/static/js/main.db21f5a7.js.map",
-    "787.2a46adef.chunk.js.map": "/gbif-browser/static/js/787.2a46adef.chunk.js.map"
+    "main.258a5a1e.css.map": "/gbif-browser/static/css/main.258a5a1e.css.map",
+    "main.34169a6d.js.map": "/gbif-browser/static/js/main.34169a6d.js.map",
+    "453.92b63eaf.chunk.js.map": "/gbif-browser/static/js/453.92b63eaf.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cafd531b.css",
-    "static/js/main.db21f5a7.js"
+    "static/css/main.258a5a1e.css",
+    "static/js/main.34169a6d.js"
   ]
 }
