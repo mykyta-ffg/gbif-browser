@@ -1,5 +1,5 @@
 import { useMap } from "react-leaflet";
-import { LatLngTuple } from "leaflet";
+import { LatLngLiteral } from "leaflet";
 
 export default function MapViewManager({ center }: MapManagerState) {
   const map = useMap();
@@ -9,5 +9,5 @@ export default function MapViewManager({ center }: MapManagerState) {
 }
 
 interface MapManagerState {
-  center: LatLngTuple;
+  center: LatLngLiteral;
 }

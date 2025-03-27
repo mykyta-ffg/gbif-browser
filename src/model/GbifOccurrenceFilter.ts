@@ -5,11 +5,11 @@ export class GbifOccurrenceFilter {
   public static MAXIMUM_RESULT_LIMIT = 300;
 
   constructor(
-    geometry: LatLng[] | null,
     { isEndangeredOnly, includePlants, includeFungi }: FilterControlsState,
     offset: number,
+    geometry?: LatLng[],
   ) {
-    this.geometry = geometry;
+    this.geometry = geometry ?? null;
     this.offset = offset;
     this.endangeredOnly = isEndangeredOnly;
     this.includePlants = includePlants;
@@ -29,6 +29,8 @@ export class GbifOccurrenceFilter {
   limit = GbifOccurrenceFilter.MAXIMUM_RESULT_LIMIT;
 
   toUrlSearchParams() {
+    const now = new Date();
+
     return new URLSearchParams([
       ["limit", `${this.limit}`],
       ["offset", `${this.offset}`],
@@ -40,6 +42,9 @@ export class GbifOccurrenceFilter {
       // TODO: Define proper mapping
       ["taxon_key", this.includePlants ? "6" : ""],
       ["taxon_key", this.includeFungi ? "5" : ""],
+      ["license", "CC0_1_0"],
+      ["license", "CC_BY_4_0"],
+      ["year", `${now.getUTCFullYear() - 50},${now.getUTCFullYear()}`],
       ...(this.endangeredOnly ? ["NT", "VU", "EN", "CR"].map(c => ["iucn_red_list_category", c]) : []),
     ]);
   }

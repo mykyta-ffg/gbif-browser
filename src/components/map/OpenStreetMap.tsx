@@ -1,9 +1,20 @@
 import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
+import L from "leaflet";
 import { FeatureGroup, MapContainer, Polygon, TileLayer } from "react-leaflet";
-import { LatLng, LatLngExpression, LatLngTuple, Polygon as LeafletPolygon, Rectangle } from "leaflet";
+import { LatLng, LatLngExpression, LatLngLiteral, Polygon as LeafletPolygon, Rectangle } from "leaflet";
 import { EditControl } from "react-leaflet-draw";
 import { MapViewManager } from "./index";
+import LocationMarker, { LocationMarkerProps } from "./LocationMarker";
+
+// @ts-ignore
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+  iconUrl: require("leaflet/dist/images/marker-icon.png"),
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+});
 
 export default function OpenStreetMap({
   center,
@@ -11,7 +22,21 @@ export default function OpenStreetMap({
   zoomLevel,
   polygonCoordinates,
   onPolygonCreation,
-}: MapProps) {
+  onPolygonDelete,
+  drawingEnabled,
+  markerPosition,
+  onMarkerPositionChange,
+}: MapProps & LocationMarkerProps) {
+  const drawOptions = {
+    rectangle: drawingEnabled,
+    polygon: drawingEnabled,
+    polyline: false,
+    marker: false,
+    circle: false,
+    circlemarker: false,
+  };
+  console.debug("Draw options:", drawOptions);
+
   return (
     <MapContainer center={center} zoom={zoomLevel} style={{ height: "50vh" }}>
       <TileLayer
@@ -19,9 +44,9 @@ export default function OpenStreetMap({
         url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
       />
       {isCentered && <MapViewManager center={center} />}
-      <FeatureGroup>
+      <FeatureGroup key={`feature-group-with-drawing-${drawingEnabled}`}>
         <EditControl
-          draw={{ polyline: false, marker: false, circle: false, circlemarker: false }}
+          draw={drawOptions}
           position="topright"
           onCreated={event => {
             console.debug("onCreated event: ", event);
@@ -32,8 +57,14 @@ export default function OpenStreetMap({
 
             onPolygonCreation(coordinates[0]);
           }}
+          onDeleted={event => {
+            console.debug("onDeleted event", event);
+
+            onPolygonDelete();
+          }}
         />
         {polygonCoordinates && <Polygon positions={polygonCoordinates} />}
+        <LocationMarker markerPosition={markerPosition} onMarkerPositionChange={onMarkerPositionChange} />
       </FeatureGroup>
     </MapContainer>
   );
@@ -41,8 +72,10 @@ export default function OpenStreetMap({
 
 export interface MapProps {
   zoomLevel: number;
-  center: LatLngTuple;
+  center: LatLngLiteral;
   isCentered: boolean;
   polygonCoordinates?: LatLngExpression[];
   onPolygonCreation: (polygonGeometry: LatLng[]) => void;
+  onPolygonDelete: () => void;
+  drawingEnabled: boolean;
 }

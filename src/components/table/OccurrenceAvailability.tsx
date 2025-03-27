@@ -31,19 +31,19 @@ async function getBrunsAvailability(query: string, retries: number[]): Promise<b
 }
 
 async function getAvailability(record: GbifOccurrenceResponseResult) {
-  const taxonKey = `${record.taxonKey}`;
+  const key = `${record.taxonKey}-availability`;
   const scientificName = record.scientificName;
-  const cachedAvailability = JSON.parse(sessionStorage.getItem(taxonKey) ?? "{}") as OccurrenceRecordAvailability;
+  const cachedAvailability = JSON.parse(sessionStorage.getItem(key) ?? "{}") as OccurrenceRecordAvailability;
   if (Object.keys(cachedAvailability).length) {
-    console.debug(`Cache hit for ${scientificName} (${taxonKey})`);
+    console.debug(`Cache hit for ${scientificName} (${key})`);
   } else {
-    console.debug(`Cache miss for ${scientificName} (${taxonKey})`);
+    console.debug(`Cache miss for ${scientificName} (${key})`);
 
     const availability: OccurrenceRecordAvailability = {
       bruns: await getBrunsAvailability(scientificName, [60_000, 5_000, 10_000, 15_000, 30_000]),
     };
 
-    sessionStorage.setItem(taxonKey, JSON.stringify(availability));
+    sessionStorage.setItem(key, JSON.stringify(availability));
 
     return availability;
   }
@@ -60,7 +60,7 @@ export default function OccurrenceAvailability({ record }: OccurrenceAvailabilit
 
     console.debug(`Will check availability of ${record.scientificName}`);
     checkAvailability().catch((e: any) =>
-      console.error(`Error checking availability if ${record.scientificName}: `, e),
+      console.error(`Error checking availability of ${record.scientificName}: `, e),
     );
   }, [record]);
 

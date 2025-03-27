@@ -12,6 +12,7 @@ export interface GbifOccurrenceResponseResult {
   countryCode: string;
   crawlId: number;
   datasetKey: string;
+  datasetName: string;
   day: number;
   decimalLatitude: number;
   decimalLongitude: number;

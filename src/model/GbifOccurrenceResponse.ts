@@ -1,9 +1,4 @@
 import { GbifOccurrenceResponseResult } from "./GbifOccurrenceResponseResult";
+import { GbifResponse } from "./GbifResponse";
 
-export interface GbifOccurrenceResponse {
-  offset: number;
-  limit: number;
-  endOfRecords: boolean;
-  count: number;
-  results: GbifOccurrenceResponseResult[];
-}
+export interface GbifOccurrenceResponse extends GbifResponse<GbifOccurrenceResponseResult> {}

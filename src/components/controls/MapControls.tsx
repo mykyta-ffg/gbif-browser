@@ -2,13 +2,14 @@ import { Button, ButtonGroup, ButtonToolbar, Col, Form, Row } from "react-bootst
 import { ChangeEventHandler } from "react";
 
 export default function MapControls({
-  defaultLatitude,
-  defaultLongitude,
+  latitude,
+  longitude,
   onLatitudeChange,
   onLongitudeChange,
   onRadiusChange,
   onDrawRectangle,
   onCenter,
+  drawingEnabled,
 }: MapControlsProps) {
   return (
     <Form>
@@ -17,14 +18,7 @@ export default function MapControls({
           Latitude
         </Form.Label>
         <Col sm="8">
-          <Form.Control
-            defaultValue={defaultLatitude}
-            onChange={onLatitudeChange}
-            type="number"
-            min={-90}
-            max={90}
-            step=".001"
-          />
+          <Form.Control value={latitude} onChange={onLatitudeChange} min={-90} max={90} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-2">
@@ -32,14 +26,7 @@ export default function MapControls({
           Longitude
         </Form.Label>
         <Col sm="8">
-          <Form.Control
-            defaultValue={defaultLongitude}
-            onChange={onLongitudeChange}
-            type="number"
-            min={-180}
-            max={180}
-            step=".001"
-          />
+          <Form.Control value={longitude} onChange={onLongitudeChange} min={-180} max={180} />
         </Col>
       </Form.Group>
       <Form.Group as={Row} className="mb-3">
@@ -47,12 +34,12 @@ export default function MapControls({
           Radius, km
         </Form.Label>
         <Col sm="8">
-          <Form.Control defaultValue={10} onChange={onRadiusChange} type="number" />
+          <Form.Control defaultValue={10} onChange={onRadiusChange} />
         </Col>
       </Form.Group>
       <ButtonToolbar className="d-flex justify-content-between">
         <ButtonGroup>
-          <Button size="sm" variant="outline-primary" onClick={onDrawRectangle}>
+          <Button disabled={!drawingEnabled} size="sm" variant="outline-primary" onClick={onDrawRectangle}>
             Draw rectangle
           </Button>
         </ButtonGroup>
@@ -72,9 +59,10 @@ export interface MapControlsProps extends MapControlsState {
   onRadiusChange: ChangeEventHandler<HTMLInputElement>;
   onCenter: () => void;
   onDrawRectangle: () => void;
+  drawingEnabled: boolean;
 }
 
 export interface MapControlsState {
-  defaultLatitude: number;
-  defaultLongitude: number;
+  latitude: number;
+  longitude: number;
 }
